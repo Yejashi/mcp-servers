@@ -1,4 +1,4 @@
-# libgen-mcp
+# black-hat-tomes-mcp
 
 An [MCP](https://modelcontextprotocol.io) server for downloading ebooks from
 [LibGen](https://libgen.me). It searches LibGen by title or author and
@@ -30,9 +30,9 @@ Books save to `~/Documents/ebooks` by default. Override with:
 
 | Env var | Default | Meaning |
 | --- | --- | --- |
-| `LIBGEN_DOWNLOAD_DIR` | `~/Documents/ebooks` | Where books are saved |
-| `LIBGEN_SEARCH_URL` | `https://libgen.me` | Search API host |
-| `LIBGEN_DOWNLOAD_URL` | `https://libgen.download` | File host |
+| `BLACK_HAT_TOMES_DOWNLOAD_DIR` | `~/Documents/ebooks` | Where books are saved |
+| `BLACK_HAT_TOMES_SEARCH_URL` | `https://libgen.me` | Search API host |
+| `BLACK_HAT_TOMES_DOWNLOAD_URL` | `https://libgen.download` | File host |
 
 ## Add it to a client
 
@@ -40,7 +40,7 @@ Point your MCP client at `dist/cli.js`, e.g. OpenCode / Claude Code /
 VS Code:
 
 ```json
-{ "mcp": { "libgen": { "type": "local", "command": ["node", "/path/to/mcp-servers/servers/libgen/dist/cli.js"] } } }
+{ "mcp": { "black-hat-tomes": { "type": "local", "command": ["node", "/path/to/mcp-servers/servers/black-hat-tomes/dist/cli.js"] } } }
 ```
 
 ## How it works
@@ -67,7 +67,7 @@ Both hosts are overridable by env var so the tests run against a fake.
 ## Token cost
 
 The three tool definitions cost **337 tokens per request**
-(`npm run tokens -- libgen`).
+(`npm run tokens -- black-hat-tomes`).
 
 ## Limits
 

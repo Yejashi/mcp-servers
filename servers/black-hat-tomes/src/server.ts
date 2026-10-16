@@ -25,7 +25,7 @@ function guard<A>(fn: (args: A) => Promise<Text>): (args: A) => Promise<Text> {
 export function createServer(opts: { version: string; fetchImpl?: typeof fetch } = { version: "0.0.0" }) {
   const client = () => new LibGenClient(opts.fetchImpl);
   const server = new McpServer(
-    { name: "libgen", version: opts.version },
+    { name: "black-hat-tomes", version: opts.version },
     {
       instructions:
         "LibGen ebook downloads. Use search_books to find a book (ids are in [brackets]); pick an eng/epub candidate, then download_book by id. If a download fails, pick another id for the same title from search.",

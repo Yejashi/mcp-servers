@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// libgen-mcp: with no arguments, the MCP server on stdio. LibGen is anonymous,
+// black-hat-tomes-mcp: with no arguments, the MCP server on stdio. LibGen is anonymous,
 // so there is nothing to set up — `status` just checks the hosts are reachable.
 
 import { readFileSync } from "node:fs";
@@ -10,15 +10,15 @@ import { createServer } from "./server.js";
 
 const version: string = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8")).version;
 
-const HELP = `libgen-mcp ${version} -- an MCP server for LibGen ebook downloads
+const HELP = `black-hat-tomes-mcp ${version} -- an MCP server for LibGen ebook downloads
 
 Usage:
-  libgen-mcp        run the MCP server (stdio)
-  libgen-mcp status check that LibGen is reachable
-  libgen-mcp help   show this help
+  black-hat-tomes-mcp        run the MCP server (stdio)
+  black-hat-tomes-mcp status check that LibGen is reachable
+  black-hat-tomes-mcp help   show this help
 
 No credentials: LibGen is anonymous.
-Environment: LIBGEN_DOWNLOAD_DIR, LIBGEN_SEARCH_URL, LIBGEN_DOWNLOAD_URL`;
+Environment: BLACK_HAT_TOMES_DOWNLOAD_DIR, BLACK_HAT_TOMES_SEARCH_URL, BLACK_HAT_TOMES_DOWNLOAD_URL`;
 
 async function main(argv: string[]) {
   const cmd = argv[0];

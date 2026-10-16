@@ -1,11 +1,11 @@
 {
-  "name": "libgen-mcp",
+  "name": "black-hat-tomes-mcp",
   "version": "0.1.0",
   "description": "MCP server for LibGen ebook downloads: search by title/author and download verified EPUBs.",
   "license": "MIT",
   "type": "module",
   "bin": {
-    "libgen-mcp": "dist/cli.js"
+    "black-hat-tomes-mcp": "dist/cli.js"
   },
   "files": [
     "dist",

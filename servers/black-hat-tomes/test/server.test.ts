@@ -22,9 +22,9 @@ async function connect(env: Record<string, string>) {
   return { client, call };
 }
 
-describe("libgen-mcp over stdio", () => {
+describe("black-hat-tomes-mcp over stdio", () => {
   let fake: Fake;
-  const dir = mkdtempSync(join(tmpdir(), "libgen-dl-"));
+  const dir = mkdtempSync(join(tmpdir(), "black-hat-tomes-dl-"));
 
   beforeAll(async () => {
     fake = await startFake();
@@ -32,7 +32,7 @@ describe("libgen-mcp over stdio", () => {
   afterAll(() => fake?.close());
 
   it("offers its tools, read-only ones marked", async () => {
-    const s = await connect({ LIBGEN_SEARCH_URL: fake.base, LIBGEN_DOWNLOAD_URL: fake.base, LIBGEN_DOWNLOAD_DIR: dir });
+    const s = await connect({ BLACK_HAT_TOMES_SEARCH_URL: fake.base, BLACK_HAT_TOMES_DOWNLOAD_URL: fake.base, BLACK_HAT_TOMES_DOWNLOAD_DIR: dir });
     try {
       const { tools } = await s.client.listTools();
       expect(tools.map((t) => t.name).sort()).toEqual(["download_book", "search_books", "status"]);
@@ -46,7 +46,7 @@ describe("libgen-mcp over stdio", () => {
   });
 
   it("searches and filters to eng/epub candidates", async () => {
-    const s = await connect({ LIBGEN_SEARCH_URL: fake.base, LIBGEN_DOWNLOAD_URL: fake.base, LIBGEN_DOWNLOAD_DIR: dir });
+    const s = await connect({ BLACK_HAT_TOMES_SEARCH_URL: fake.base, BLACK_HAT_TOMES_DOWNLOAD_URL: fake.base, BLACK_HAT_TOMES_DOWNLOAD_DIR: dir });
     try {
       const r = await s.call("search_books", { query: "golden son" });
       expect(r.isError).toBe(false);
@@ -66,7 +66,7 @@ describe("libgen-mcp over stdio", () => {
   });
 
   it("downloads a valid EPUB and verifies it", async () => {
-    const s = await connect({ LIBGEN_SEARCH_URL: fake.base, LIBGEN_DOWNLOAD_URL: fake.base, LIBGEN_DOWNLOAD_DIR: dir });
+    const s = await connect({ BLACK_HAT_TOMES_SEARCH_URL: fake.base, BLACK_HAT_TOMES_DOWNLOAD_URL: fake.base, BLACK_HAT_TOMES_DOWNLOAD_DIR: dir });
     try {
       const r = await s.call("download_book", { id: "100", title: "Golden Son", author: "Pierce Brown" });
       expect(r.isError).toBe(false);
@@ -81,7 +81,7 @@ describe("libgen-mcp over stdio", () => {
   });
 
   it("saves a MOBI with the right extension", async () => {
-    const s = await connect({ LIBGEN_SEARCH_URL: fake.base, LIBGEN_DOWNLOAD_URL: fake.base, LIBGEN_DOWNLOAD_DIR: dir });
+    const s = await connect({ BLACK_HAT_TOMES_SEARCH_URL: fake.base, BLACK_HAT_TOMES_DOWNLOAD_URL: fake.base, BLACK_HAT_TOMES_DOWNLOAD_DIR: dir });
     try {
       const r = await s.call("download_book", { id: "200", title: "Golden Son", author: "Pierce Brown" });
       expect(r.isError).toBe(false);
@@ -94,7 +94,7 @@ describe("libgen-mcp over stdio", () => {
   });
 
   it("rejects an HTML ADS page, a stub, and a missing id", async () => {
-    const s = await connect({ LIBGEN_SEARCH_URL: fake.base, LIBGEN_DOWNLOAD_URL: fake.base, LIBGEN_DOWNLOAD_DIR: dir });
+    const s = await connect({ BLACK_HAT_TOMES_SEARCH_URL: fake.base, BLACK_HAT_TOMES_DOWNLOAD_URL: fake.base, BLACK_HAT_TOMES_DOWNLOAD_DIR: dir });
     try {
       const html = await s.call("download_book", { id: "300" });
       expect(html.isError).toBe(true);
@@ -111,7 +111,7 @@ describe("libgen-mcp over stdio", () => {
   });
 
   it("reports connection status", async () => {
-    const s = await connect({ LIBGEN_SEARCH_URL: fake.base, LIBGEN_DOWNLOAD_URL: fake.base, LIBGEN_DOWNLOAD_DIR: dir });
+    const s = await connect({ BLACK_HAT_TOMES_SEARCH_URL: fake.base, BLACK_HAT_TOMES_DOWNLOAD_URL: fake.base, BLACK_HAT_TOMES_DOWNLOAD_DIR: dir });
     try {
       const r = await s.call("status");
       expect(r.isError).toBe(false);

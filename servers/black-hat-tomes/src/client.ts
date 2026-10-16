@@ -93,7 +93,7 @@ export class LibGenClient {
 
     const dir = resolve(opts.dir);
     mkdirSync(dir, { recursive: true });
-    const tmp = join(dir, `.libgen-${id}-${process.pid}.part`);
+    const tmp = join(dir, `.black-hat-tomes-${id}-${process.pid}.part`);
     try {
       await pipeline(Readable.fromWeb(res.body as any), createWriteStream(tmp, { flags: "wx" }));
     } catch (err) {
@@ -126,7 +126,7 @@ export class LibGenClient {
 
     const name = opts.title
       ? safeFilename(opts.author ? `${opts.title} - ${opts.author}` : opts.title, ext)
-      : safeFilename(`libgen-${id}`, ext);
+      : safeFilename(`black-hat-tomes-${id}`, ext);
     const path = freePath(dir, name);
     renameSync(tmp, path);
     return { path, bytes, ext };
