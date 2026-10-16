@@ -66,6 +66,8 @@ describe("bookfusion-mcp over stdio", () => {
     const all = await s.call("list_books");
     expect(all.text.split("\n")).toEqual(["2 books; page 1", "[101] Dune — Frank Herbert · EPUB 1.1 MB, PDF 8.6 MB · Dune #1 · 42% read", "[102] A Store Book — Someone · EPUB"]);
     expect((await s.call("list_books", { query: "nothing" })).text).toBe('No books match "nothing".');
+    // A query is ranked by relevance: no sort is forced on it.
+    expect(JSON.parse(fake.calls.filter((c) => c.path === "/api/user/books/search").at(-1)!.body.toString()).sort).toBeUndefined();
     await s.call("list_books", { shelf: "sci" });
     const sent = JSON.parse(fake.calls.filter((c) => c.path === "/api/user/books/search").at(-1)!.body.toString());
     expect(sent).toMatchObject({ bookshelf_id: 7, page: 1, per_page: 25, sort: "added_at-desc" });
@@ -98,19 +100,20 @@ describe("bookfusion-mcp over stdio", () => {
     expect(noKey.isError).toBe(true);
     expect(noKey.text).toMatch(/Calibre API key/);
 
+    // Logged in (token saved by the login test) and with the upload key.
     const s2 = await connect({ BOOKFUSION_BASE_URL: fake.base, BOOKFUSION_CONFIG_DIR: cfg, BOOKFUSION_API_KEY: fake.apiKey });
     try {
       const up = await s2.call("upload_book", { path: book, authors: ["Me"], bookshelves: ["Sci-Fi"] });
-      expect(up.text).toBe("Uploaded as [900] My Book. BookFusion may take a minute to process it before it can be read or downloaded.");
+      expect(up.text).toBe("Uploaded: [5001] My Book is in the library.");
       const storage = fake.calls.find((c) => c.path === "/storage/upload")!;
       expect(storage.body.toString()).toMatch(/name="key"\r\n\r\nuploads\/abc[\s\S]*name="file"; filename="My Book.epub"[\s\S]*a real epub, honestly/);
       const fin = fake.calls.find((c) => c.path === "/calibre-api/v1/uploads/finalize")!.body.toString();
       expect(fin).toMatch(/name="metadata\[author_list\]\[\]"\r\n\r\nMe/);
       const again = await s2.call("upload_book", { path: book });
-      expect(again.text).toBe("Already in the library as [900] My Book; not uploaded again.");
+      expect(again.text).toBe("Already in the library as [5001] My Book; not uploaded again.");
       const other = join(downloads, "Other Dune.epub");
       writeFileSync(other, "different bytes, same book");
-      expect((await s2.call("upload_book", { path: other, isbn: "9780441013593" })).text).toBe("Already in the library as [555] Dune; not uploaded again.");
+      expect((await s2.call("upload_book", { path: other, isbn: "9780441013593" })).text).toBe("Already in the library as [101] Dune; not uploaded again.");
       const nope = await s2.call("upload_book", { path: join(cfg, "credentials.json") });
       expect(nope.isError).toBe(true);
       expect(nope.text).toMatch(/Only ebook files/);

@@ -142,7 +142,9 @@ export class BookFusion {
   }
 
   async searchBooks(params: SearchParams): Promise<Page<Book>> {
-    const { data, headers } = await this.user("POST", "/api/user/books/search", { sort: "added_at-desc", ...defined(params) });
+    // With a query BookFusion ranks by relevance unless told otherwise;
+    // without one, newest first, as its apps browse.
+    const { data, headers } = await this.user("POST", "/api/user/books/search", { ...(params.query ? {} : { sort: "added_at-desc" }), ...defined(params) });
     return this.page<Book>(data, headers);
   }
 

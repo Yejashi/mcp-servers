@@ -167,7 +167,13 @@ export function createServer(opts: { version: string; fetchImpl?: typeof fetch }
         isbn: a.isbn,
         coverPath: a.cover_path,
       });
-      return text(r.status === "exists" ? `Already in the library as [${r.id}]${r.title ? ` ${r.title}` : ""}; not uploaded again.` : `Uploaded as [${r.id}] ${r.title}. BookFusion may take a minute to process it before it can be read or downloaded.`);
+      const where = r.bookId !== undefined ? `[${r.bookId}]${r.title ? ` ${r.title}` : ""}` : r.title ? `"${r.title}"` : "a book";
+      if (r.status === "exists") return text(`Already in the library as ${where}; not uploaded again.`);
+      return text(
+        r.bookId !== undefined
+          ? `Uploaded: ${where} is in the library.`
+          : `Uploaded "${r.title}". BookFusion is still processing it; it will appear in list_books in a minute or two.`,
+      );
     }),
   );
 

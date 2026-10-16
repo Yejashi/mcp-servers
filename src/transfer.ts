@@ -82,7 +82,23 @@ export function metadataForm(meta: UploadMeta & { title: string }): FormData {
   return form;
 }
 
-export type UploadResult = { status: "uploaded" | "exists"; id: string | number; title?: string };
+/**
+ * `uploadId` is the Calibre API's record; `bookId`, once BookFusion has
+ * processed the file, is the library id the other tools take.
+ */
+export type UploadResult = { status: "uploaded" | "exists"; uploadId: string | number; bookId?: string | number; title?: string };
+
+/** The library book a just-finished upload became, found by title among the newest books. */
+export async function findUploadedBook(bf: BookFusion, title: string, tries = 4, waitMs = 4000): Promise<string | number | undefined> {
+  const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  for (let i = 0; i < tries; i++) {
+    const page = await bf.searchBooks({ query: title, per_page: 10, sort: "added_at-desc" }).catch(() => undefined);
+    const hit = page?.items.find((b) => norm(b.title ?? "") === norm(title));
+    if (hit) return hit.id;
+    if (i < tries - 1) await new Promise((r) => setTimeout(r, waitMs));
+  }
+  return undefined;
+}
 
 export async function uploadBook(bf: BookFusion, path: string, meta: UploadMeta = {}): Promise<UploadResult> {
   const abs = resolve(path);
@@ -93,7 +109,10 @@ export async function uploadBook(bf: BookFusion, path: string, meta: UploadMeta 
   const digest = await bookDigest(abs);
   // The same file uploaded before, or (like the Calibre plugin) the same ISBN.
   const existing = (await bf.findUpload(digest)) ?? (meta.isbn ? (await bf.findUploadsByIsbn(meta.isbn))[0] : undefined);
-  if (existing) return { status: "exists", id: existing.id, title: (existing as any).title };
+  if (existing) {
+    const title = (existing as any).title ?? meta.title;
+    return { status: "exists", uploadId: existing.id, title, bookId: title && bf.hasToken ? await findUploadedBook(bf, title, 1) : undefined };
+  }
   const filename = basename(abs);
   const target = await bf.initUpload(filename, digest);
   await bf.putFile(target, await openAsBlob(abs), filename);
@@ -103,5 +122,5 @@ export async function uploadBook(bf: BookFusion, path: string, meta: UploadMeta 
   const key = target.params.key;
   if (!key) throw new BookFusionError(502, "BookFusion's upload target had no key to finalize with.");
   const done = await bf.finalizeUpload(key, digest, form);
-  return { status: "uploaded", id: done.id, title };
+  return { status: "uploaded", uploadId: done.id, title, bookId: bf.hasToken ? await findUploadedBook(bf, title) : undefined };
 }

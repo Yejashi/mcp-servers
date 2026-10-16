@@ -67,6 +67,8 @@ export async function startFake(opts: { token?: string; apiKey?: string; approve
         const title = /name="metadata\[title\]"\r\n\r\n([^\r]*)/.exec(body.toString())?.[1] ?? "";
         const rec = { id: 900 + uploads.size, title };
         uploads.set(digest, rec);
+        // As on BookFusion: the library book gets its own id, not the upload's.
+        BOOKS.unshift({ id: 5000 + uploads.size, title, authors: [], formats: [{ content_type: "application/epub+zip" }] } as any);
         return json(200, rec);
       }
       if (q === "/uploads") return json(200, url.searchParams.get("isbn") === "9780441013593" ? [{ id: 555, title: "Dune" }] : []);
