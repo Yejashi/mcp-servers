@@ -7,6 +7,7 @@ CLI; the root is an npm workspace so one install builds them all.
 | Server | What it does |
 |---|---|
 | [bookfusion](servers/bookfusion) | Your BookFusion ebook library: list, search, download and upload books, read highlights. |
+| [libgen](servers/libgen) | LibGen ebook downloads: search by title/author and download verified EPUBs. |
 
 ## Install
 
