@@ -3,12 +3,15 @@
   "private": true,
   "description": "My own MCP servers, one folder each under servers/.",
   "workspaces": [
-    "servers/*"
+    "servers/*",
+    "templates/*"
   ],
   "scripts": {
     "build": "npm run build --workspaces --if-present",
-    "test": "npm test --workspaces --if-present",
-    "typecheck": "npm run typecheck --workspaces --if-present"
+    "test": "npm test --workspaces --if-present && node --test scripts/",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "new": "node scripts/new-server.mjs",
+    "tokens": "node scripts/tool-tokens.mjs"
   },
   "engines": {
     "node": ">=20"

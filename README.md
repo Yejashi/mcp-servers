@@ -27,15 +27,21 @@ client at `servers/<name>/dist/cli.js`, e.g. in
 
 ## Adding a server
 
-1. `servers/<name>/` with a `package.json` (`"type": "module"`, a `bin`, and
-   `build` / `typecheck` / `test` scripts), `src/`, `test/` and a README.
-2. Keep secrets out of the repo: read them from the environment or a mode 600
-   file under `~/.config/<name>/`, never from a tracked file.
-3. Keep the tool list short and its descriptions tight: every tool's schema is
-   sent with every request and costs context.
-4. Tests must not need the real service or credentials; drive the server over
-   stdio against a fake, as `servers/bookfusion/test` does.
-5. Add a row to the table above. CI runs every workspace's typecheck and tests.
+```sh
+npm run new -- <name> ["Service Name"]   # scaffolds servers/<name> from templates/server
+npm install
+npm test -w servers/<name>               # passes before you change anything
+```
+
+Then follow [AGENTS.md](AGENTS.md), the guide for building one: finding the
+real API, credentials, tool design and token budget, tests against a fake,
+and checking against the real service. It is written for coding agents
+(`CLAUDE.md` imports it) and reads fine for people too.
+
+`templates/server` is a complete, tested server for an imaginary service;
+CI builds and tests it, and checks that a freshly scaffolded copy passes its
+own tests. `npm run tokens -- <name>` shows what a server's tool definitions
+cost per request.
 
 ## License
 
