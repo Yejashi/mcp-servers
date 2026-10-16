@@ -17,13 +17,16 @@ The eight tool descriptions cost about 925 tokens per request.
 
 ## Install
 
+Part of [mcp-servers](../..):
+
 ```sh
-git clone … bookfusion-mcp && cd bookfusion-mcp
-npm install            # builds dist/
+git clone git@github.com:Yejashi/mcp-servers.git && cd mcp-servers
+npm install            # builds every server, this one into servers/bookfusion/dist/
+cd servers/bookfusion
 npm test
 ```
 
-Needs Node 20 or later.
+Needs Node 20 or later. The commands below run from `servers/bookfusion`.
 
 ## Set up
 
@@ -59,19 +62,19 @@ Environment variables override the file: `BOOKFUSION_TOKEN`,
 **OpenCode** (also Tellico sessions), `~/.config/opencode/opencode.json`:
 
 ```json
-{ "mcp": { "bookfusion": { "type": "local", "command": ["node", "/path/to/bookfusion-mcp/dist/cli.js"] } } }
+{ "mcp": { "bookfusion": { "type": "local", "command": ["node", "/path/to/mcp-servers/servers/bookfusion/dist/cli.js"] } } }
 ```
 
 **Claude Code**:
 
 ```sh
-claude mcp add bookfusion -- node /path/to/bookfusion-mcp/dist/cli.js
+claude mcp add bookfusion -- node /path/to/mcp-servers/servers/bookfusion/dist/cli.js
 ```
 
 **VS Code** (`.vscode/mcp.json` or your user `mcp.json`):
 
 ```json
-{ "servers": { "bookfusion": { "type": "stdio", "command": "node", "args": ["/path/to/bookfusion-mcp/dist/cli.js"] } } }
+{ "servers": { "bookfusion": { "type": "stdio", "command": "node", "args": ["/path/to/mcp-servers/servers/bookfusion/dist/cli.js"] } } }
 ```
 
 ## How it works
