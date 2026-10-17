@@ -34,6 +34,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Yejashi/mcp-servers.git",
-    "directory": "servers/bookfusion"
+    "directory": "servers/bookfusion-mcp"
   }
 }

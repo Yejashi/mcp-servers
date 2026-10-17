@@ -40,7 +40,7 @@ Point your MCP client at `dist/cli.js`, e.g. OpenCode / Claude Code /
 VS Code:
 
 ```json
-{ "mcp": { "black-hat-tomes": { "type": "local", "command": ["node", "/path/to/mcp-servers/servers/black-hat-tomes/dist/cli.js"] } } }
+{ "mcp": { "black-hat-tomes": { "type": "local", "command": ["node", "/path/to/mcp-servers/servers/black-hat-tomes-mcp/dist/cli.js"] } } }
 ```
 
 ## How it works

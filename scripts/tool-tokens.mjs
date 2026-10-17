@@ -1,4 +1,4 @@
-// npm run tokens -- <name>
+// npm run tokens -- <name>-mcp   (or just <name>)
 //
 // Starts servers/<name>/dist/cli.js, lists its tools the way an MCP client
 // does, and estimates what their definitions cost on every request (JSON
@@ -12,9 +12,9 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const name = process.argv[2];
+const name = process.argv[2] && (process.argv[2].endsWith("-mcp") ? process.argv[2] : `${process.argv[2]}-mcp`);
 if (!name) {
-  console.error("Usage: npm run tokens -- <server name>");
+  console.error("Usage: npm run tokens -- <name>-mcp");
   process.exit(2);
 }
 const client = new Client({ name: "tool-tokens", version: "1" });

@@ -1,13 +1,13 @@
 # mcp-servers
 
 My own [MCP](https://modelcontextprotocol.io) servers, one folder each under
-`servers/`. Each is a self-contained package with its own README, tests and
+`servers/`, named `<name>-mcp` like the package inside it. Each is a self-contained package with its own README, tests and
 CLI; the root is an npm workspace so one install builds them all.
 
 | Server | What it does |
 |---|---|
-| [bookfusion](servers/bookfusion) | Your BookFusion ebook library: list, search, download and upload books, read highlights. |
-| [black-hat-tomes](servers/black-hat-tomes) | LibGen ebook downloads: search by title/author and download verified EPUBs. |
+| [bookfusion-mcp](servers/bookfusion-mcp) | Your BookFusion ebook library: list, search, download and upload books, read highlights. |
+| [black-hat-tomes-mcp](servers/black-hat-tomes-mcp) | LibGen ebook downloads: search by title/author and download verified EPUBs. |
 
 ## Install
 
@@ -19,19 +19,19 @@ npm test
 ```
 
 Then follow each server's README for its credentials, and point your MCP
-client at `servers/<name>/dist/cli.js`, e.g. in
+client at `servers/<name>-mcp/dist/cli.js`, e.g. in
 `~/.config/opencode/opencode.json`:
 
 ```json
-{ "mcp": { "bookfusion": { "type": "local", "command": ["node", "/path/to/mcp-servers/servers/bookfusion/dist/cli.js"] } } }
+{ "mcp": { "servers": { "bookfusion-mcp": { "type": "local", "command": ["node", "/path/to/mcp-servers/servers/bookfusion-mcp/dist/cli.js"] } } } }
 ```
 
 ## Adding a server
 
 ```sh
-npm run new -- <name> ["Service Name"]   # scaffolds servers/<name> from templates/server
+npm run new -- <name> ["Service Name"]   # scaffolds servers/<name>-mcp from templates/server
 npm install
-npm test -w servers/<name>               # passes before you change anything
+npm test -w servers/<name>-mcp           # passes before you change anything
 ```
 
 Then follow [AGENTS.md](AGENTS.md), the guide for building one: finding the

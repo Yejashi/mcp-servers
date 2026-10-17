@@ -21,12 +21,12 @@ Part of [mcp-servers](../..):
 
 ```sh
 git clone git@github.com:Yejashi/mcp-servers.git && cd mcp-servers
-npm install            # builds every server, this one into servers/bookfusion/dist/
-cd servers/bookfusion
+npm install            # builds every server, this one into servers/bookfusion-mcp/dist/
+cd servers/bookfusion-mcp
 npm test
 ```
 
-Needs Node 20 or later. The commands below run from `servers/bookfusion`.
+Needs Node 20 or later. The commands below run from `servers/bookfusion-mcp`.
 
 ## Set up
 
@@ -62,19 +62,19 @@ Environment variables override the file: `BOOKFUSION_TOKEN`,
 **OpenCode** (also Tellico sessions), `~/.config/opencode/opencode.json`:
 
 ```json
-{ "mcp": { "bookfusion": { "type": "local", "command": ["node", "/path/to/mcp-servers/servers/bookfusion/dist/cli.js"] } } }
+{ "mcp": { "bookfusion": { "type": "local", "command": ["node", "/path/to/mcp-servers/servers/bookfusion-mcp/dist/cli.js"] } } }
 ```
 
 **Claude Code**:
 
 ```sh
-claude mcp add bookfusion -- node /path/to/mcp-servers/servers/bookfusion/dist/cli.js
+claude mcp add bookfusion -- node /path/to/mcp-servers/servers/bookfusion-mcp/dist/cli.js
 ```
 
 **VS Code** (`.vscode/mcp.json` or your user `mcp.json`):
 
 ```json
-{ "servers": { "bookfusion": { "type": "stdio", "command": "node", "args": ["/path/to/mcp-servers/servers/bookfusion/dist/cli.js"] } } }
+{ "servers": { "bookfusion": { "type": "stdio", "command": "node", "args": ["/path/to/mcp-servers/servers/bookfusion-mcp/dist/cli.js"] } } }
 ```
 
 ## How it works

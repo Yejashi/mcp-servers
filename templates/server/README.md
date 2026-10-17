@@ -23,7 +23,7 @@ _Where the user gets the token._ It is stored in
 ## Add it to a client
 
 ```json
-{ "mcp": { "example": { "type": "local", "command": ["node", "/path/to/mcp-servers/servers/example/dist/cli.js"] } } }
+{ "mcp": { "servers": { "example-mcp": { "type": "local", "command": ["node", "/path/to/mcp-servers/servers/example-mcp/dist/cli.js"] } } } }
 ```
 
 ## How it works

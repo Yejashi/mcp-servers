@@ -25,7 +25,7 @@ export function createServer(opts: { version: string; fetchImpl?: typeof fetch }
   // Read per call, so `example-mcp set-token` takes effect without a restart.
   const client = () => new ExampleClient(loadCredentials(), opts.fetchImpl);
   const server = new McpServer(
-    { name: "example", version: opts.version },
+    { name: "example-mcp", version: opts.version },
     { instructions: "Example items. Use list_items to find one; ids are in [brackets]." },
   );
 

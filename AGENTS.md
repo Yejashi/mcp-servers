@@ -1,18 +1,18 @@
 # AGENTS.md
 
 How to build a new MCP server in this repo. Read it all before starting; it
-is short on purpose. `servers/bookfusion` is the worked example for every
+is short on purpose. `servers/bookfusion-mcp` is the worked example for every
 rule here.
 
 ## Commands
 
 ```sh
-npm run new -- <name> ["Service Name"]   # scaffold servers/<name> from templates/server
+npm run new -- <name> ["Service Name"]   # scaffold servers/<name>-mcp from templates/server
 npm install                              # at the root: links and builds every server
 npm test                                 # every server's tests, plus the scaffold test
-npm test -w servers/<name>               # one server
+npm test -w servers/<name>-mcp           # one server
 npm run typecheck
-npm run tokens -- <name>                 # what its tool definitions cost per request
+npm run tokens -- <name>-mcp             # what its tool definitions cost per request
 ```
 
 A new server starts as a copy of `templates/server` with every identifier
@@ -21,7 +21,7 @@ renamed. Its tests pass before you change anything; keep it that way.
 ## Layout of a server
 
 ```
-servers/<name>/
+servers/<name>-mcp/   folder, package and server name all end in -mcp
   package.json     "<name>-mcp", type module, bin -> dist/cli.js
   src/cli.ts       no args: stdio server; subcommands set it up (set-token, login, status, logout)
   src/config.ts    credentials file, env overrides, base URL (overridable for tests)
@@ -92,7 +92,7 @@ window. So:
 
 - **Few tools.** Prefer one tool with a filter parameter to three tools.
   BookFusion has 8 and they cost ~930 tokens per request
-  (`npm run tokens -- bookfusion`). Aim for under ~150 tokens per tool; put
+  (`npm run tokens -- bookfusion-mcp`). Aim for under ~150 tokens per tool; put
   the number in the README.
 - **Descriptions say what it returns and when to use it**, in one or two
   sentences. Parameter `.describe()`s only where the name is not obvious.

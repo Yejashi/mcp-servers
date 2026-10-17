@@ -34,7 +34,7 @@ export function createServer(opts: { version: string; fetchImpl?: typeof fetch }
   const client = () => new BookFusion(creds, opts.fetchImpl);
   const login = new DeviceLogin(client, (token) => (creds = { ...creds, token }));
   const server = new McpServer(
-    { name: "bookfusion", version: opts.version },
+    { name: "bookfusion-mcp", version: opts.version },
     {
       instructions:
         "Your BookFusion ebook library. Find books with list_books (ids are in [brackets]), then download_book or get_highlights by id. upload_book adds a local ebook file. If a tool says you are not logged in, call login and give the user the link and code it returns.",
